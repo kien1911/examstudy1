@@ -1,0 +1,59 @@
+<% include partials/header %>
+
+<section class="container section">
+  <h1 class="page-title">Bảng điều khiển của tôi</h1>
+
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <span class="stat-number"><%= enrolledCourses.length %></span>
+      <span class="stat-label">Khóa học đã đăng ký</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number"><%= stats.total_attempts || 0 %></span>
+      <span class="stat-label">Lượt làm bài</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number"><%= stats.avg_score ? stats.avg_score.toFixed(1) : '—' %></span>
+      <span class="stat-label">Điểm trung bình</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">Khóa học của tôi</h2>
+  <div class="course-grid">
+    <% if (enrolledCourses.length === 0) { %>
+      <p>Bạn chưa đăng ký khóa học nào. <a href="/courses">Khám phá khóa học</a></p>
+    <% } %>
+    <% enrolledCourses.forEach(course => { %>
+      <a href="/courses/<%= course.id %>" class="course-card">
+        <div class="course-thumb category-<%= course.category.toLowerCase() %>"><%= course.category %></div>
+        <div class="course-body">
+          <h3><%= course.title %></h3>
+          <p><%= course.description %></p>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+
+  <h2 class="section-title">Lịch sử làm bài gần đây</h2>
+  <table class="data-table">
+    <thead>
+      <tr><th>Đề thi</th><th>Danh mục</th><th>Điểm</th><th>Thời gian</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% if (recentAttempts.length === 0) { %>
+        <tr><td colspan="5">Chưa có lượt làm bài nào.</td></tr>
+      <% } %>
+      <% recentAttempts.forEach(att => { %>
+        <tr>
+          <td><%= att.exam_title %></td>
+          <td><%= att.category %></td>
+          <td><%= att.score !== null ? att.score.toFixed(1) : '—' %></td>
+          <td><%= att.started_at %></td>
+          <td><a href="/attempts/<%= att.id %>/result">Xem chi tiết</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<% include partials/footer %>

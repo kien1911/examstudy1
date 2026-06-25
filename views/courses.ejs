@@ -1,0 +1,35 @@
+<% include partials/header %>
+
+<section class="container section">
+  <h1 class="page-title">Danh sách khóa học</h1>
+
+  <div class="filter-tabs">
+    <a href="/courses" class="<%= activeCategory === 'all' ? 'active' : '' %>">Tất cả</a>
+    <a href="/courses?category=TSA" class="<%= activeCategory === 'TSA' ? 'active' : '' %>">TSA</a>
+    <a href="/courses?category=HSA" class="<%= activeCategory === 'HSA' ? 'active' : '' %>">HSA</a>
+    <a href="/courses?category=THPT" class="<%= activeCategory === 'THPT' ? 'active' : '' %>">THPT</a>
+  </div>
+
+  <div class="course-grid">
+    <% if (courses.length === 0) { %>
+      <p>Chưa có khóa học nào trong danh mục này.</p>
+    <% } %>
+    <% courses.forEach(course => { %>
+      <a href="/courses/<%= course.id %>" class="course-card">
+        <div class="course-thumb category-<%= course.category.toLowerCase() %>">
+          <%= course.category %>
+        </div>
+        <div class="course-body">
+          <h3><%= course.title %></h3>
+          <p><%= course.description %></p>
+          <div class="course-meta">
+            <span>Giảng viên: <%= course.teacher_name || 'ExamStudy' %></span>
+            <span class="price"><%= course.price > 0 ? course.price.toLocaleString('vi-VN') + 'đ' : 'Miễn phí' %></span>
+          </div>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<% include partials/footer %>

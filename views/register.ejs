@@ -1,0 +1,28 @@
+<% include partials/header %>
+
+<section class="container auth-page">
+  <div class="auth-card">
+    <h2>Đăng ký tài khoản</h2>
+    <% if (error) { %>
+      <p class="alert alert-error"><%= error %></p>
+    <% } %>
+    <form action="/register" method="POST" class="form">
+      <label>Họ và tên</label>
+      <input type="text" name="full_name" required placeholder="Nguyễn Văn A">
+
+      <label>Email</label>
+      <input type="email" name="email" required placeholder="ban@email.com">
+
+      <label>Mật khẩu</label>
+      <input type="password" name="password" required placeholder="Tối thiểu 6 ký tự">
+
+      <label>Xác nhận mật khẩu</label>
+      <input type="password" name="confirm_password" required placeholder="Nhập lại mật khẩu">
+
+      <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+    </form>
+    <p class="auth-switch">Đã có tài khoản? <a href="/login">Đăng nhập</a></p>
+  </div>
+</section>
+
+<% include partials/footer %>

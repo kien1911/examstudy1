@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'ExamStudy - Luyện thi TSA HSA THPT' %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">Exam<span>Study</span></a>
+      <nav class="main-nav">
+        <a href="/courses?category=TSA">TSA</a>
+        <a href="/courses?category=HSA">HSA</a>
+        <a href="/courses?category=THPT">THPT</a>
+        <a href="/courses">Tất cả khóa học</a>
+      </nav>
+      <div class="auth-area">
+        <% if (user) { %>
+          <span class="hello-user">Chào, <%= user.full_name %></span>
+          <% if (user.role === 'student') { %>
+            <a href="/dashboard" class="btn btn-ghost">Bảng điều khiển</a>
+          <% } else if (user.role === 'teacher') { %>
+            <a href="/teacher/dashboard" class="btn btn-ghost">Bảng giáo viên</a>
+          <% } else if (user.role === 'admin') { %>
+            <a href="/admin/dashboard" class="btn btn-ghost">Quản trị</a>
+          <% } %>
+          <form action="/logout" method="POST" class="inline-form">
+            <button type="submit" class="btn btn-outline">Đăng xuất</button>
+          </form>
+        <% } else { %>
+          <a href="/login" class="btn btn-ghost">Đăng nhập</a>
+          <a href="/register" class="btn btn-primary">Đăng ký miễn phí</a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+  <main>

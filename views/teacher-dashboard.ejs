@@ -1,0 +1,27 @@
+<% include partials/header %>
+
+<section class="container section">
+  <h1 class="page-title">Bảng điều khiển giáo viên</h1>
+
+  <h2 class="section-title">Khóa học tôi giảng dạy</h2>
+  <table class="data-table">
+    <thead>
+      <tr><th>Tên khóa học</th><th>Danh mục</th><th>Số học sinh</th><th>Ngày tạo</th></tr>
+    </thead>
+    <tbody>
+      <% if (myCourses.length === 0) { %>
+        <tr><td colspan="4">Bạn chưa tạo khóa học nào.</td></tr>
+      <% } %>
+      <% myCourses.forEach(c => { %>
+        <tr>
+          <td><a href="/courses/<%= c.id %>"><%= c.title %></a></td>
+          <td><%= c.category %></td>
+          <td><%= c.student_count %></td>
+          <td><%= c.created_at %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<% include partials/footer %>

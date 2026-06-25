@@ -1,0 +1,25 @@
+<% include partials/header %>
+
+<section class="container section">
+  <div class="result-summary">
+    <h1>Kết quả: <%= attempt.exam_title %></h1>
+    <div class="score-circle"><%= attempt.score.toFixed(1) %></div>
+    <p>Bạn đã trả lời đúng <strong><%= attempt.correct_count %></strong> / <%= attempt.total_questions %> câu.</p>
+  </div>
+
+  <h2 class="section-title">Chi tiết bài làm</h2>
+  <% answers.forEach((a, index) => { %>
+    <div class="question-card <%= a.is_correct ? 'correct' : 'incorrect' %>">
+      <p class="question-text"><strong>Câu <%= index + 1 %>:</strong> <%= a.content %></p>
+      <p>Bạn chọn: <strong><%= a.selected_option || 'Chưa trả lời' %></strong> |
+         Đáp án đúng: <strong><%= a.correct_option %></strong></p>
+      <% if (a.explanation) { %>
+        <p class="explanation">Giải thích: <%= a.explanation %></p>
+      <% } %>
+    </div>
+  <% }) %>
+
+  <a href="/dashboard" class="btn btn-primary">Về bảng điều khiển</a>
+</section>
+
+<% include partials/footer %>

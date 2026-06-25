@@ -1,0 +1,44 @@
+<% include partials/header %>
+
+<section class="container section course-detail-page">
+  <div class="course-detail-header category-<%= course.category.toLowerCase() %>">
+    <span class="badge"><%= course.category %></span>
+    <h1><%= course.title %></h1>
+    <p><%= course.description %></p>
+    <p class="teacher-line">Giảng viên: <strong><%= course.teacher_name || 'ExamStudy' %></strong></p>
+  </div>
+
+  <% if (user && user.role === 'student') { %>
+    <% if (!isEnrolled) { %>
+      <form action="/courses/<%= course.id %>/enroll" method="POST">
+        <button type="submit" class="btn btn-primary btn-lg">Đăng ký học ngay</button>
+      </form>
+    <% } else { %>
+      <p class="alert alert-success">Bạn đã đăng ký khóa học này. Hãy bắt đầu làm bài thi bên dưới!</p>
+    <% } %>
+  <% } else if (!user) { %>
+    <p><a href="/login">Đăng nhập</a> để đăng ký khóa học này.</p>
+  <% } %>
+
+  <h2 class="section-title">Đề thi trong khóa học</h2>
+  <div class="exam-list">
+    <% if (exams.length === 0) { %>
+      <p>Chưa có đề thi nào.</p>
+    <% } %>
+    <% exams.forEach(exam => { %>
+      <div class="exam-item">
+        <div>
+          <h3><%= exam.title %></h3>
+          <span>Thời gian: <%= exam.duration_minutes %> phút</span>
+        </div>
+        <% if (user) { %>
+          <a href="/exams/<%= exam.id %>/take" class="btn btn-outline">Làm bài</a>
+        <% } else { %>
+          <a href="/login" class="btn btn-outline">Đăng nhập để làm bài</a>
+        <% } %>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<% include partials/footer %>

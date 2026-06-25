@@ -1,0 +1,48 @@
+<% include partials/header %>
+
+<section class="container section exam-page">
+  <div class="exam-header">
+    <h1><%= exam.title %></h1>
+    <div class="exam-timer" id="timer" data-minutes="<%= exam.duration_minutes %>">--:--</div>
+  </div>
+
+  <form action="/exams/<%= exam.id %>/submit" method="POST" id="examForm">
+    <% questions.forEach((q, index) => { %>
+      <div class="question-card">
+        <p class="question-text"><strong>Câu <%= index + 1 %>:</strong> <%= q.content %></p>
+        <div class="options">
+          <label class="option"><input type="radio" name="question_<%= q.id %>" value="A" required> <span>A.</span> <%= q.option_a %></label>
+          <label class="option"><input type="radio" name="question_<%= q.id %>" value="B"> <span>B.</span> <%= q.option_b %></label>
+          <label class="option"><input type="radio" name="question_<%= q.id %>" value="C"> <span>C.</span> <%= q.option_c %></label>
+          <label class="option"><input type="radio" name="question_<%= q.id %>" value="D"> <span>D.</span> <%= q.option_d %></label>
+        </div>
+      </div>
+    <% }) %>
+
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Nộp bài</button>
+  </form>
+</section>
+
+<script>
+  // Đồng hồ đếm ngược thời gian làm bài
+  const timerEl = document.getElementById('timer');
+  let remaining = parseInt(timerEl.dataset.minutes, 10) * 60;
+
+  function renderTimer() {
+    const m = Math.floor(remaining / 60).toString().padStart(2, '0');
+    const s = (remaining % 60).toString().padStart(2, '0');
+    timerEl.textContent = m + ':' + s;
+  }
+  renderTimer();
+
+  const interval = setInterval(() => {
+    remaining--;
+    renderTimer();
+    if (remaining <= 0) {
+      clearInterval(interval);
+      document.getElementById('examForm').submit();
+    }
+  }, 1000);
+</script>
+
+<% include partials/footer %>
